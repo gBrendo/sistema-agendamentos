@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Agendamentos.Api/Agendamentos.Api.csproj" />
+    <Project Path="src/Agendamentos.Application/Agendamentos.Application.csproj" />
+    <Project Path="src/Agendamentos.Domain/Agendamentos.Domain.csproj" />
+    <Project Path="src/Agendamentos.Infrastructure/Agendamentos.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Agendamentos.IntegrationTests/Agendamentos.IntegrationTests.csproj" />
+    <Project Path="tests/Agendamentos.UnitTests/Agendamentos.UnitTests.csproj" />
+  </Folder>
+</Solution>
