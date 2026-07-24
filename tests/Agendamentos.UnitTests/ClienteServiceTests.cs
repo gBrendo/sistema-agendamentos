@@ -35,4 +35,15 @@ public class ClienteServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() =>
             service.CriarClienteAsync("", "email@teste.com"));
     }
+    [Fact]
+    public async Task CriarCliente_ComEmailInvalido_DeveLancarArgumentException()
+    {
+        // Arrange
+        var repositorioMock = new Mock<IClienteRepository>();
+        var service = new ClienteService(repositorioMock.Object);
+
+        // Act + Assert
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            service.CriarClienteAsync("Teste Nome", "testeemailhotmail.com"));
+    }
 }
