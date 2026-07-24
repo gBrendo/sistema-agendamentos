@@ -46,4 +46,43 @@ public class ClienteServiceTests
         await Assert.ThrowsAsync<ArgumentException>(() =>
             service.CriarClienteAsync("Teste Nome", "testeemailhotmail.com"));
     }
+    [Fact]
+    public async Task ObterClientePorEmail_QuandoExiste_DeveRetornarCliente()
+    {
+        // Arrange
+        var clienteExistente = new Cliente("Maria Souza", "maria@email.com");
+
+        var repositorioMock = new Mock<IClienteRepository>();
+        repositorioMock
+            .Setup(r => r.ObterPorEmailAsync("maria@email.com"))
+            .ReturnsAsync(clienteExistente);
+
+        var service = new ClienteService(repositorioMock.Object);
+
+        // Act
+        var resultado = await service.ObterClientePorEmailAsync("maria@email.com");
+
+        // Assert
+        resultado.Should().NotBeNull();
+        resultado!.Email.Should().Be("maria@email.com");
+    }
+    [Fact]
+    public async Task DeletarCliente_QuandoExiste_DeveChamarRepositorioParaRemover()
+    {
+        // Arrange
+        var clienteExistente = new Cliente("Carlos Lima", "carlos@email.com");
+
+        var repositorioMock = new Mock<IClienteRepository>();
+        repositorioMock
+            .Setup(r => r.ObterPorEmailAsync("carlos@email.com"))
+            .ReturnsAsync(clienteExistente);
+
+        var service = new ClienteService(repositorioMock.Object);
+
+        // Act
+        await service.DeletarClienteAsync("carlos@email.com");
+
+        // Assert
+        repositorioMock.Verify(r => r.RemoverAsync(clienteExistente), Times.Once);
+    }
 }

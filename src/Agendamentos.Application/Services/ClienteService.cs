@@ -17,4 +17,17 @@ public class ClienteService
         var cliente = new Cliente(nome, email);
         await _clienteRepository.AdicionarAsync(cliente);
     }
+    public async Task<Cliente?> ObterClientePorEmailAsync(string email)
+    {
+        return await _clienteRepository.ObterPorEmailAsync(email);
+    }
+    public async Task DeletarClienteAsync(string email)
+    {
+        var cliente = await _clienteRepository.ObterPorEmailAsync(email);
+
+        if (cliente is null)
+            throw new InvalidOperationException("Cliente não encontrado.");
+
+        await _clienteRepository.RemoverAsync(cliente);
+    }
 }
