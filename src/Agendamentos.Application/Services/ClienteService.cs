@@ -30,4 +30,15 @@ public class ClienteService
 
         await _clienteRepository.RemoverAsync(cliente);
     }
+    public async Task AtualizarClienteAsync(string emailAtual, string novoNome, string novoEmail)
+    {
+        var cliente = await _clienteRepository.ObterPorEmailAsync(emailAtual);
+
+        if (cliente is null)
+            throw new InvalidOperationException("Cliente não encontrado.");
+
+        cliente.AtualizarDados(novoNome, novoEmail);
+
+        await _clienteRepository.AtualizarAsync(cliente);    
+    }
 }

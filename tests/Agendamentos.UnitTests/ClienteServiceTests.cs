@@ -85,4 +85,23 @@ public class ClienteServiceTests
         // Assert
         repositorioMock.Verify(r => r.RemoverAsync(clienteExistente), Times.Once);
     }
+    [Fact]
+    public async Task AtualizarCliente_QuandoExiste_DeveChamarRepositorioParaAtualizar()
+{
+    // Arrange
+    var clienteExistente = new Cliente("Ana Souza", "ana.antiga@email.com");
+
+    var repositorioMock = new Mock<IClienteRepository>();
+    repositorioMock
+        .Setup(r => r.ObterPorEmailAsync("ana.antiga@email.com"))
+        .ReturnsAsync(clienteExistente);
+
+    var service = new ClienteService(repositorioMock.Object);
+
+    // Act
+    await service.AtualizarClienteAsync("ana.antiga@email.com", "Ana Nova", "ana.nova@email.com");
+
+    // Assert
+    repositorioMock.Verify(r => r.AtualizarAsync(clienteExistente), Times.Once);
+}
 }

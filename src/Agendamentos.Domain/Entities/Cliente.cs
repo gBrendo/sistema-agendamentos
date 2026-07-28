@@ -20,4 +20,15 @@ public class Cliente
         Nome = nome;
         Email = email;
     }
+    public void AtualizarDados(string nome, string email)
+{
+    if (string.IsNullOrWhiteSpace(nome))
+        throw new ArgumentException("Nome é obrigatório.");
+
+    if (string.IsNullOrWhiteSpace(email) || !email.Contains('@'))
+        throw new ArgumentException("Email inválido.");
+
+    Nome = nome;
+    Email = email;
+}
 }
