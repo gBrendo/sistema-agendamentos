@@ -104,4 +104,5 @@ public class ClienteServiceTests
     // Assert
     repositorioMock.Verify(r => r.AtualizarAsync(clienteExistente), Times.Once);
 }
+
 }
