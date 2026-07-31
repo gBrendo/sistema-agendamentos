@@ -23,4 +23,15 @@ public class AgendamentoService
 
         await _agendamentoRepository.AdicionarAsync(agendamento);
     }
+    public async Task CancelarAgendamentoAsync(Guid agendamentoId)
+    {
+        var agendamento = await _agendamentoRepository.ObterPorIdAsync(agendamentoId);
+
+        if (agendamento is null)
+            throw new InvalidOperationException("Agendamento não encontrado.");
+
+        agendamento.Cancelar();
+
+        await _agendamentoRepository.AtualizarAsync(agendamento);
+    }
 }
