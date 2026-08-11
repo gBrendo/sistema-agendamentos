@@ -20,4 +20,15 @@ public class Profissional
         Nome = nome;
         Especialidade = especialidade;
     }
+    public void AtualizarDados(string nome, string especialidade)
+    {
+        if (string.IsNullOrWhiteSpace(nome))
+            throw new ArgumentException("Nome é obrigatório.");
+
+        if (string.IsNullOrWhiteSpace(especialidade))
+            throw new ArgumentException("Especialidade é obrigatória.");
+
+        Nome = nome;
+        Especialidade = especialidade;
+    }
 }

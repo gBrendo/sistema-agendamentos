@@ -6,4 +6,6 @@ public interface IProfissionalRepository
 {
     Task AdicionarAsync(Profissional profissional);
     Task<Profissional?> ObterPorIdAsync(Guid id);
+    Task AtualizarAsync(Profissional profissional);
+    Task RemoverAsync(Profissional profissional);
 }
