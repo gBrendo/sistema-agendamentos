@@ -1,4 +1,7 @@
+using Agendamentos.Application.Interfaces;
+using Agendamentos.Application.Services;
 using Agendamentos.Infrastructure.Data;
+using Agendamentos.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -9,6 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AgendamentosDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IClienteRepository, ClienteRepositorio>();
+builder.Services.AddScoped<IProfissionalRepository, ProfissionalRepositorio>();
+builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepositorio>();
+
+builder.Services.AddScoped<ClienteService>();
+builder.Services.AddScoped<ProfissionalService>();
+builder.Services.AddScoped<AgendamentoService>();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
