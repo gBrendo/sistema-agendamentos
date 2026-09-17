@@ -1,3 +1,4 @@
+using Agendamentos.Api.DTOs;
 using Agendamentos.Application.Interfaces;
 using Agendamentos.Application.Services;
 using Agendamentos.Infrastructure.Data;
@@ -24,13 +25,29 @@ builder.Services.AddScoped<AgendamentoService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.MapPost("/clientes", async (CriarClienteRequest request, ClienteService clienteService) =>
+{
+    try
+    {
+        await clienteService.CriarClienteAsync(request.Nome, request.Email);
+        return Results.Created();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
