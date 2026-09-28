@@ -42,6 +42,46 @@ app.MapPost("/clientes", async (CriarClienteRequest request, ClienteService clie
     }
 });
 
+app.MapGet("/clientes/{email}", async (string email, ClienteService clienteService) =>
+{
+    var cliente = await clienteService.ObterClientePorEmailAsync(email);
+
+    if (cliente is null)
+        return Results.NotFound();
+
+    return Results.Ok(new ClienteResponse(cliente.Id, cliente.Nome, cliente.Email));
+});
+
+app.MapPut("/clientes/{emailAtual}", async (string emailAtual, AtualizarClienteRequest request, ClienteService clienteService) =>
+{
+    try
+    {
+        await clienteService.AtualizarClienteAsync(emailAtual, request.NovoNome, request.NovoEmail);
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
+
+app.MapDelete("/clientes/{email}", async (string email, ClienteService clienteService) =>
+{
+    try
+    {
+        await clienteService.DeletarClienteAsync(email);
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
