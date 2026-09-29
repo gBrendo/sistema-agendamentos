@@ -81,6 +81,18 @@ app.MapDelete("/clientes/{email}", async (string email, ClienteService clienteSe
         return Results.NotFound(ex.Message);
     }
 });
+app.MapPost("/profissionais", async (CriarProfissionalRequest request, ProfissionalService profissionalservice) =>
+{
+    try
+    {
+        await profissionalservice.CriarProfissionalAsync(request.Nome, request.Especialidade);
+        return Results.Created();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -117,3 +129,5 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+

@@ -5,3 +5,4 @@ public record CriarClienteRequest(string Nome, string Email);
 public record ClienteResponse(Guid Id, string Nome, string Email);
 
 public record AtualizarClienteRequest(string NovoNome, string NovoEmail);
+
