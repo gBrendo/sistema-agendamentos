@@ -94,6 +94,16 @@ app.MapPost("/profissionais", async (CriarProfissionalRequest request, Profissio
     }
 });
 
+app.MapGet("/profissionais/{id}", async (Guid id, ProfissionalService profissionalService) =>
+{
+    var profissional = await profissionalService.ObterProfissionalPorIdAsync(id);
+
+    if (profissional is null)
+        return Results.NotFound();
+
+    return Results.Ok(new ProfissionalResponse(profissional.Id, profissional.Nome, profissional.Especialidade));
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
