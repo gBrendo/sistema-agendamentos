@@ -1,6 +1,7 @@
 using Agendamentos.Api.DTOs;
 using Agendamentos.Application.Interfaces;
 using Agendamentos.Application.Services;
+using Agendamentos.Domain.Entities;
 using Agendamentos.Infrastructure.Data;
 using Agendamentos.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -85,8 +86,8 @@ app.MapPost("/profissionais", async (CriarProfissionalRequest request, Profissio
 {
     try
     {
-        await profissionalservice.CriarProfissionalAsync(request.Nome, request.Especialidade);
-        return Results.Created();
+        var profissional = await profissionalservice.CriarProfissionalAsync(request.Nome, request.Especialidade);
+        return Results.Created($"/profissionais/{profissional.Id}", new ProfissionalResponse(profissional.Id, profissional.Nome, profissional.Especialidade));
     }
     catch (ArgumentException ex)
     {

@@ -12,14 +12,16 @@ public class ProfissionalService
         _profissionalRepository = profissionalRepository;
     }
 
-    public async Task CriarProfissionalAsync(string nome, string especialidade)
+    public async Task<Profissional> CriarProfissionalAsync(string nome, string especialidade)
     {
         var profissional = new Profissional(nome, especialidade);
         await _profissionalRepository.AdicionarAsync(profissional);
+        return profissional;
     }
     public async Task<Profissional?> ObterProfissionalPorIdAsync(Guid id)
     {
         return await _profissionalRepository.ObterPorIdAsync(id);
+
     }
     public async Task AtualizarProfissionalAsync(Guid id, string novoNome, string novaEspecialidade)
     {

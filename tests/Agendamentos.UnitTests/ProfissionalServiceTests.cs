@@ -73,4 +73,19 @@ public class ProfissionalServiceTests
 
         repositorioMock.Verify(r => r.RemoverAsync(profissionalExistente), Times.Once);
     }
+    [Fact]
+    public async Task CriarProfissional_ComDadosValidos_DeveRetornarProfissionalCriado()
+    {
+        // Arrange
+        var repositorioMock = new Mock<IProfissionalRepository>();
+        var service = new ProfissionalService(repositorioMock.Object);
+
+        // Act
+        var resultado = await service.CriarProfissionalAsync("Dra. Marina", "Odontologia");
+
+        // Assert
+        resultado.Should().NotBeNull();
+        resultado.Nome.Should().Be("Dra. Marina");
+        resultado.Id.Should().NotBe(Guid.Empty);
+    }
 }
