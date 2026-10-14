@@ -105,6 +105,23 @@ app.MapGet("/profissionais/{id}", async (Guid id, ProfissionalService profission
     return Results.Ok(new ProfissionalResponse(profissional.Id, profissional.Nome, profissional.Especialidade));
 });
 
+app.MapPut("/profissionais/{id}", async (Guid id, AtualizarProfissionalRequest request, ProfissionalService profissionalService) =>
+{
+    try
+    {
+        await profissionalService.AtualizarProfissionalAsync(id, request.NovoNome, request.NovaEspecialidade);
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
