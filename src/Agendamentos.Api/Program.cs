@@ -122,6 +122,19 @@ app.MapPut("/profissionais/{id}", async (Guid id, AtualizarProfissionalRequest r
     }
 });
 
+app.MapDelete("/profissionais/{id}", async (Guid id, ProfissionalService profissionalService) =>
+{
+    try
+    {
+        await profissionalService.DeletarProfissionalAsync(id);
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
