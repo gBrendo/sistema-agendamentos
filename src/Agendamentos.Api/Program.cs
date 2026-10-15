@@ -162,7 +162,26 @@ app.MapGet("/weatherforecast", () =>
         .ToArray();
     return forecast;
 })
+
 .WithName("GetWeatherForecast");
+
+
+app.MapPost("/agendamentos", async (CriarAgendamentoRequest request, AgendamentoService agendamentoService) =>
+{
+    try
+    {
+        await agendamentoService.CriarAgendamentoAsync(request.ClienteId, request.ProfissionalId, request.DataHora);
+        return Results.Created();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.Conflict(ex.Message);
+    }
+});
 
 app.Run();
 
